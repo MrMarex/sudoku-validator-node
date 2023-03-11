@@ -42,25 +42,15 @@ class Validator {
 
     // Scenario with empty cells
     if (!emptyCells) {
-      // Check if the rows are valid
-      for (let row = 0; row < 9; row++) {
-        let rowSet = new Set();
-        for (let col = 0; col < 9; col++) {
-          rowSet.add(board[row][col]);
-        }
-        if (rowSet.size != 9) {
-
-          return "Sudoku is invalid.";
-        }
-      }
-
-      // Check if the columns are valid
+      // Check if the rows and columns are valid
       for (let col = 0; col < 9; col++) {
         let colSet = new Set();
+        let rowSet = new Set();
         for (let row = 0; row < 9; row++) {
           colSet.add(board[row][col]);
+          rowSet.add(board[row][col]);
         }
-        if (colSet.size != 9) {
+        if (colSet.size != 9 || rowSet.size != 9) {
 
           return "Sudoku is invalid.";
         }
@@ -85,31 +75,19 @@ class Validator {
 
     // Check if the sudoku has 0 and is valid
     if (emptyCells !== 0) {
-      // Check if the rows are valid
+      // Check if the rows and columns are valid
       for (let row = 0; row < 9; row++) {
         let noZerosRowSet = new Set();
+        let noZerosColSet = new Set();
         for (let col = 0; col < 9; col++) {
           if (board[row][col] != 0) {
             noZerosRowSet.add(board[row][col]);
-          }
-        }
-        let uniqueRowSet = new Set(noZerosRowSet);
-        if (JSON.stringify(uniqueRowSet) != JSON.stringify(noZerosRowSet)) {
-
-          return "Sudoku is invalid.";
-        }
-      }
-
-      // Check if the columns are valid
-      for (let col = 0; col < 9; col++) {
-        let noZerosColSet = new Set();
-        for (let row = 0; row < 9; row++) {
-          if (board[row][col] != 0) {
             noZerosColSet.add(board[row][col]);
           }
         }
-        let uniqueColSet = new Set(noZerosColSet)
-        if (JSON.stringify(uniqueColSet) != JSON.stringify(noZerosColSet)) {
+        let uniqueRowSet = new Set(noZerosRowSet);
+        let uniqueColSet = new Set(noZerosColSet);
+        if (JSON.stringify(uniqueRowSet) != JSON.stringify(noZerosRowSet) || JSON.stringify(uniqueColSet) != JSON.stringify(noZerosColSet)) {
 
           return "Sudoku is invalid.";
         }
